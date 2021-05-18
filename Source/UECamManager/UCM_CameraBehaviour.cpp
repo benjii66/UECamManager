@@ -22,13 +22,14 @@ void AUCM_CameraBehaviour::BeginPlay()
 {
 	Super::BeginPlay();
 	InitCamera();
+
+	//TODO ENABLE IN CAMERA SWITCH WHEN ISSOK
+	Enable();
 }
 
 void AUCM_CameraBehaviour::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	SetDaOffset();
 
 	SmoothFollow(DeltaTime);
 	SmoothLookAt(DeltaTime);
@@ -39,7 +40,10 @@ void AUCM_CameraBehaviour::Tick(float DeltaTime)
 void AUCM_CameraBehaviour::Enable()
 {
 	if (!IsValid())return;
+	UE_LOG(LogTemp, Warning, TEXT("Enable"));
 	cameraComponent->Activate();
+	//Permets de voir à travers la caméra
+	GetWorld()->GetFirstPlayerController()->SetViewTarget(this);
 	isEnabled = true;
 }
 
@@ -74,7 +78,7 @@ void AUCM_CameraBehaviour::RemoveHandleItem()
 void AUCM_CameraBehaviour::SmoothLookAt(float _deltaTime)
 {
 	if (!IsValid() || !settings.IsLookAt())return;
-	FVector _forward = settings.TargetLocalPosition();
+	FVector _forward = settings.TargetPosition();
 	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), _forward));
 }
 
@@ -82,17 +86,6 @@ void AUCM_CameraBehaviour::SmoothFollow(float _deltaTime)
 {
 	if (!IsValid() || !settings.IsMoving())return;
 	SetActorLocation(FMath::Lerp(GetActorLocation(), CameraFinalPosition(), _deltaTime * settings.cameraSpeed));
-}
-
-void AUCM_CameraBehaviour::SetDaOffset()
-{
-	FVector _x = settings.target->GetActorForwardVector() * settings.XOffset();
-	FVector _y = settings.target->GetActorRightVector() * settings.YOffset();
-	FVector _z = settings.target->GetActorUpVector() * settings.ZOffset();
-
-	FVector _offset = _x + _y + _z;
-
-	settings.SetOffset(_offset);
 }
 
 void AUCM_CameraBehaviour::DrawGizmos()
@@ -104,14 +97,10 @@ void AUCM_CameraBehaviour::DrawGizmos()
 		DrawDebugSphere(GetWorld(), settings.TargetPosition(), 100, 20, FColor::Emerald, false, -1, 0, 1);
 
 
-		//tous tes vecteurs sont à 0,0,0; POURQUOI ?
-
 		DrawDebugSphere(GetWorld(), settings.Target()->GetActorForwardVector(), 20, 20, FColor::Red, false, -1, 0, 1);
 		DrawDebugSphere(GetWorld(), settings.Target()->GetActorRightVector(), 20, 20, FColor::Magenta, false, -1, 0, 1);
 		DrawDebugSphere(GetWorld(), settings.Target()->GetActorUpVector(), 20, 20, FColor::Orange, false, -1, 0, 1);
 
-
-		//tous tes vecteurs sont à 0,0,0; POURQUOI ?
 
 		DrawDebugLine(GetWorld(), settings.TargetPosition(), settings.target->GetActorForwardVector(), FColor::Red, false, -1, 0, 1);
 		DrawDebugLine(GetWorld(), settings.TargetPosition(), settings.target->GetActorRightVector(), FColor::Magenta, false, -1, 0, 1);

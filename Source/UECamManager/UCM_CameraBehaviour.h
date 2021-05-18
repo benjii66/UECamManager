@@ -53,12 +53,17 @@ public:
 
 	FORCEINLINE AActor* Target() { return target; };
 
-	FORCEINLINE FVector Offset() { return FVector(xOffset, yOffset, zOffset); };
+	FORCEINLINE FVector Offset() 
+	{ 
+		return  target->GetActorForwardVector() * xOffset +
+				target->GetActorUpVector() * zOffset +
+				target->GetActorRightVector() * yOffset;
+		/*FVector(xOffset, yOffset, zOffset);*/ 
+	};
 
 	FORCEINLINE FRotator TargetRotation() { return target->GetActorRotation(); }
 
 	FORCEINLINE FVector TargetPosition() { return target->GetActorLocation(); };
-	FORCEINLINE FVector TargetLocalPosition() { return target->GetActorLocation(); };
 
 	FORCEINLINE float CameraSpeed() { return cameraSpeed; };
 	FORCEINLINE float RotationSpeed() { return rotationSpeed; };
@@ -73,7 +78,7 @@ public:
 
 	FORCEINLINE void SetOffset(float _xOffset, float _yOffset, float _zOffset) { xOffset = _xOffset; yOffset = _yOffset; zOffset = _zOffset; };
 
-	FORCEINLINE FVector SetOffset(FVector _offset) {return Offset() = _offset;};
+
 
 #pragma endregion
 
@@ -148,8 +153,6 @@ public:
 
 	void SmoothLookAt(float _deltaTime);
 	void SmoothFollow(float _deltaTime);
-
-	void SetDaOffset();
 
 	void DrawGizmos();
 
