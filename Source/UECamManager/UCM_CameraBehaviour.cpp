@@ -103,10 +103,15 @@ void AUCM_CameraBehaviour::DrawGizmos()
 		DrawDebugLine(GetWorld(), GetActorLocation(), settings.TargetPosition(), FColor::Blue, false, -1, 0, 1);
 		DrawDebugSphere(GetWorld(), settings.TargetPosition(), 100, 20, FColor::Emerald, false, -1, 0, 1);
 
-		DrawDebugSphere(GetWorld(), settings.Target()->GetActorForwardVector(), 20, 20, FColor::Red, false, -1, 0, 1);
 
+		//tous tes vecteurs sont à 0,0,0; POURQUOI ?
+
+		DrawDebugSphere(GetWorld(), settings.Target()->GetActorForwardVector(), 20, 20, FColor::Red, false, -1, 0, 1);
 		DrawDebugSphere(GetWorld(), settings.Target()->GetActorRightVector(), 20, 20, FColor::Magenta, false, -1, 0, 1);
 		DrawDebugSphere(GetWorld(), settings.Target()->GetActorUpVector(), 20, 20, FColor::Orange, false, -1, 0, 1);
+
+
+		//tous tes vecteurs sont à 0,0,0; POURQUOI ?
 
 		DrawDebugLine(GetWorld(), settings.TargetPosition(), settings.target->GetActorForwardVector(), FColor::Red, false, -1, 0, 1);
 		DrawDebugLine(GetWorld(), settings.TargetPosition(), settings.target->GetActorRightVector(), FColor::Magenta, false, -1, 0, 1);
