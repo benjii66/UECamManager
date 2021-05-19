@@ -24,7 +24,7 @@ void AUCM_CameraBehaviour::BeginPlay()
 	InitCamera();
 
 	//TODO ENABLE IN CAMERA SWITCH WHEN ISSOK
-	Enable();
+	/*Enable();*/
 }
 
 void AUCM_CameraBehaviour::Tick(float DeltaTime)
@@ -37,56 +37,8 @@ void AUCM_CameraBehaviour::Tick(float DeltaTime)
 	DrawGizmos();
 }
 
-void AUCM_CameraBehaviour::Enable()
-{
-	if (!IsValid())return;
-	UE_LOG(LogTemp, Warning, TEXT("Enable"));
-	cameraComponent->Activate();
-	//Permets de voir à travers la caméra
-	GetWorld()->GetFirstPlayerController()->SetViewTarget(this);
-	isEnabled = true;
-}
 
-void AUCM_CameraBehaviour::Disable()
-{
-	if (!IsValid())return;
-	cameraComponent->Deactivate();
-	isEnabled = false;
-}
 
-void AUCM_CameraBehaviour::InitHandleItem()
-{
-	if (!IsValid())
-	{
-		UE_LOG(LogTemp, Error, TEXT("Need an id"));
-		return;
-	}
-	AUCM_GameMode* _gameMode = Cast<AUCM_GameMode>(GetWorld()->GetAuthGameMode());
-	if (!_gameMode) return;
-
-	_gameMode->GetCameraManager()->Add(this);
-}
-
-void AUCM_CameraBehaviour::RemoveHandleItem()
-{
-	AUCM_GameMode* _gameMode = Cast<AUCM_GameMode>(GetWorld()->GetAuthGameMode());
-	if (!_gameMode) return;
-
-	_gameMode->GetCameraManager()->Remove(this);
-}
-
-void AUCM_CameraBehaviour::SmoothLookAt(float _deltaTime)
-{
-	if (!IsValid() || !settings.IsLookAt())return;
-	FVector _forward = settings.TargetPosition();
-	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), _forward));
-}
-
-void AUCM_CameraBehaviour::SmoothFollow(float _deltaTime)
-{
-	if (!IsValid() || !settings.IsMoving())return;
-	SetActorLocation(FMath::Lerp(GetActorLocation(), CameraFinalPosition(), _deltaTime * settings.cameraSpeed));
-}
 
 void AUCM_CameraBehaviour::DrawGizmos()
 {

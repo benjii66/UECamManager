@@ -85,7 +85,7 @@ public:
 };
 
 
-UCLASS()
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent), ABSTRACT)
 class UECAMMANAGER_API AUCM_CameraBehaviour : public AActor
 {
 	GENERATED_BODY()
@@ -145,14 +145,14 @@ public:
 
 	FORCEINLINE void InitCamera() { InitHandleItem(); };
 
-	void Enable();
-	void Disable();
+	virtual void Enable() PURE_VIRTUAL(AUCM_CameraBehaviour::Enable, );
+	void Disable() PURE_VIRTUAL(AUCM_CameraBehaviour::Disable, );
 
-	void InitHandleItem();
-	void RemoveHandleItem();
+	virtual void InitHandleItem() PURE_VIRTUAL(AUCM_CameraBehaviour::InitHandleItem, );
+	virtual void RemoveHandleItem() PURE_VIRTUAL(AUCM_CameraBehaviour::RemoveHandleItem, );
 
-	void SmoothLookAt(float _deltaTime);
-	void SmoothFollow(float _deltaTime);
+	virtual void SmoothLookAt(float _deltaTime)  PURE_VIRTUAL(AUCM_CameraBehaviour::SmoothLookAt, );
+	virtual void SmoothFollow(float _deltaTime)PURE_VIRTUAL(AUCM_CameraBehaviour::SmoothFollow, );
 
 	void DrawGizmos();
 
