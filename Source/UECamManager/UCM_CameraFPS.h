@@ -14,4 +14,16 @@ class UECAMMANAGER_API AUCM_CameraFPS : public AUCM_CameraBehaviour
 {
 	GENERATED_BODY()
 	
+public: 
+	AUCM_CameraFPS();
+
+protected:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SmoothLookAt(float _deltaTime) override;
+	virtual void SmoothFollow(float _deltaTime) override;
+
+	virtual void DrawGizmos() override;
+
 };

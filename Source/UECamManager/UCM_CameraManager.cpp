@@ -25,68 +25,123 @@ void AUCM_CameraManager::Tick(float DeltaTime)
 
 }
 
+#pragma region Add
+
 void AUCM_CameraManager::Add(AUCM_CameraBehaviour* _camera)
 {
-
+	if (Exist(_camera->ID()))
+		UE_LOG(LogTemp, Error, TEXT("Camera already Exist"));
+	allCameras.Add(_camera->ID(), _camera);
 }
 
-void AUCM_CameraManager::Add(FString _id)
-{
+#pragma endregion
 
-}
+#pragma region Remove
 
 void AUCM_CameraManager::Remove(AUCM_CameraBehaviour* _camera)
 {
+	if (!Exist(_camera))
+	{
+		UE_LOG(LogTemp, Error, TEXT("Cam doesn't exist"));
+		return;
+	}
+	allCameras.Remove(_camera->ID());
+	UE_LOG(LogTemp, Warning, TEXT("camera correctly remove"));
 
 }
 
 void AUCM_CameraManager::Remove(FString _id)
 {
+	if (!Exist(_id))
+	{
+		UE_LOG(LogTemp, Error, TEXT("Cam doesn't exist"));
+		return;
+	}
+	allCameras.Remove(_id);
+	UE_LOG(LogTemp, Warning, TEXT("camera correctly remove"));
 
 }
 
+#pragma endregion
+
+#pragma region Exist
+
 bool AUCM_CameraManager::Exist(AUCM_CameraBehaviour* _camera)
 {
-	return false;
+	bool _exist = allCameras.Contains(_camera->ID());
+	if (!_exist)
+		UE_LOG(LogTemp, Error, TEXT("Cam doesn't exist"));
+
+	return _exist;
 }
 
 bool AUCM_CameraManager::Exist(FString _id)
 {
-	return false;
+	return allCameras.Contains(_id);
 }
+
+#pragma endregion
+
+#pragma region Get
 
 AUCM_CameraBehaviour* AUCM_CameraManager::Get(FString _id)
 {
-	return nullptr;
+	if (!Exist(_id))
+	{
+		UE_LOG(LogTemp, Error, TEXT("camera doesn't exist"));
+		return nullptr;
+	}
+	return allCameras[_id];
 }
 
 AUCM_CameraBehaviour* AUCM_CameraManager::Get(AUCM_CameraBehaviour* _camera)
 {
-	return nullptr;
+	if (!Exist(_camera->ID()))
+	{
+		UE_LOG(LogTemp, Error, TEXT("camera doesn't exist"));
+		return nullptr;
+	}
+	return allCameras[_camera->ID()];
 }
 
-void AUCM_CameraManager::Enable(FString _id, bool _disableOtherCamera)
-{
+#pragma endregion
 
+#pragma region Enable
+
+void AUCM_CameraManager::Enable(FString _id)
+{
+	if (!Exist(_id))return;
+	for (const TPair<FString, AUCM_CameraBehaviour*>& _camera : allCameras)
+		_camera.Value->Disable();
+	Get(_id)->Enable(allCameras[_id]);
 }
 
-void AUCM_CameraManager::Enable(AUCM_CameraBehaviour* _cameraToEnable, bool _disableOtherCamera)
+void AUCM_CameraManager::Enable(AUCM_CameraBehaviour* _cameraToEnable)
 {
-
+	if (!Exist(_cameraToEnable->ID()))return;
+	for(const TPair<FString, AUCM_CameraBehaviour*>& _camera : allCameras)
+		_camera.Value->Disable();
+	Get(_cameraToEnable->ID())->Enable(allCameras[_cameraToEnable->ID()]);
 }
 
-void AUCM_CameraManager::Disable(AUCM_CameraBehaviour* _cameraToEnable, bool _disableOtherCamera)
-{
+#pragma endregion
 
+#pragma region Disable
+
+void AUCM_CameraManager::Disable(AUCM_CameraBehaviour* _cameraToDisable)
+{
+	if (!Exist(_cameraToDisable->ID()))return;
+	Get(_cameraToDisable->ID())->Disable();
 }
 
 void AUCM_CameraManager::Disable(FString _id)
 {
-
+	if (!Exist(_id))return;
+	Get(_id)->Disable();
 }
 
-void AUCM_CameraManager::DisableAll()
-{
+#pragma endregion
 
-}
+
+
 

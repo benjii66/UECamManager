@@ -32,7 +32,6 @@ public:
 	FUpdateCameraManagerEvent& OnUpdateCameraManager() { return OnUpdateCameraManagerEvent; };
 
 	void Add(AUCM_CameraBehaviour* _camera);
-	void Add(FString _id);
 
 	void Remove(AUCM_CameraBehaviour* _camera);
 	void Remove(FString _id);
@@ -42,11 +41,10 @@ public:
 	AUCM_CameraBehaviour* Get(FString _id);
 	AUCM_CameraBehaviour* Get(AUCM_CameraBehaviour* _camera);
 
-	void Enable(FString _id, bool _disableOtherCamera);
-	void Enable(AUCM_CameraBehaviour* _cameraToEnable, bool _disableOtherCamera);
+	void Enable(FString _id);
+	void Enable(AUCM_CameraBehaviour* _cameraToEnable);
 
-	void Disable(AUCM_CameraBehaviour* _cameraToEnable, bool _disableOtherCamera);
+	void Disable(AUCM_CameraBehaviour* _cameraToDisable);
 	void Disable(FString _id);
 
-	void DisableAll();
 };

@@ -85,7 +85,7 @@ public:
 };
 
 
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent), ABSTRACT)
+UCLASS(ABSTRACT)
 class UECAMMANAGER_API AUCM_CameraBehaviour : public AActor
 {
 	GENERATED_BODY()
@@ -101,10 +101,22 @@ class UECAMMANAGER_API AUCM_CameraBehaviour : public AActor
 #pragma endregion
 
 
+
+
+
+public:
+	AUCM_CameraBehaviour();
+
+protected:
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+
 #pragma region UPROPERTIES
 
 	UPROPERTY(EditAnywhere, Category = "Camera")
-		FString id = "Camera";
+		FString id = "CameraTPS";
 
 	UPROPERTY(VisibleAnywhere)
 		bool isEnabled = true;
@@ -116,15 +128,6 @@ class UECAMMANAGER_API AUCM_CameraBehaviour : public AActor
 		FUCM_CameraSettings settings = FUCM_CameraSettings();
 
 #pragma endregion
-
-
-public:
-	AUCM_CameraBehaviour();
-
-protected:
-
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 
 public:
 
@@ -143,18 +146,20 @@ public:
 
 #pragma endregion
 
-	FORCEINLINE void InitCamera() { InitHandleItem(); };
+	FORCEINLINE void InitCamera() { InitHandleItem(this); };
 
-	virtual void Enable() PURE_VIRTUAL(AUCM_CameraBehaviour::Enable, );
-	void Disable() PURE_VIRTUAL(AUCM_CameraBehaviour::Disable, );
+	FUpdateCameraEvent& OnUpdateCameraBehaviour() { return OnUpdateCameraEvent; };
+ 
+	void Enable(AActor* _this);
+	void Disable();
 
-	virtual void InitHandleItem() PURE_VIRTUAL(AUCM_CameraBehaviour::InitHandleItem, );
-	virtual void RemoveHandleItem() PURE_VIRTUAL(AUCM_CameraBehaviour::RemoveHandleItem, );
+	void InitHandleItem(AUCM_CameraBehaviour* _this);
+	void RemoveHandleItem(AUCM_CameraBehaviour* _this);
 
 	virtual void SmoothLookAt(float _deltaTime)  PURE_VIRTUAL(AUCM_CameraBehaviour::SmoothLookAt, );
 	virtual void SmoothFollow(float _deltaTime)PURE_VIRTUAL(AUCM_CameraBehaviour::SmoothFollow, );
 
-	void DrawGizmos();
+	virtual void DrawGizmos() PURE_VIRTUAL(AUCM_CameraBehaviour::DrawGizmos, );
 
 #pragma region Setters
 

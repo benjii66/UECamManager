@@ -12,10 +12,6 @@ AUCM_CameraBehaviour::AUCM_CameraBehaviour()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
-
-	cameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
-	cameraComponent->SetupAttachment(RootComponent);
 }
 
 void AUCM_CameraBehaviour::BeginPlay()
@@ -30,35 +26,55 @@ void AUCM_CameraBehaviour::BeginPlay()
 void AUCM_CameraBehaviour::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	SmoothFollow(DeltaTime);
-	SmoothLookAt(DeltaTime);
-
-	DrawGizmos();
+	
+	//DrawGizmos();
 }
 
-
-
-
-void AUCM_CameraBehaviour::DrawGizmos()
+void AUCM_CameraBehaviour::Enable(AActor* _this)
 {
-	if (settings.IsValidSettings())
-	{
-		DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(), 90, 4, FColor::Red, false, -1, 10);
-		DrawDebugLine(GetWorld(), GetActorLocation(), settings.TargetPosition(), FColor::Blue, false, -1, 0, 1);
-		DrawDebugSphere(GetWorld(), settings.TargetPosition(), 100, 20, FColor::Emerald, false, -1, 0, 1);
+	if (!IsValid())return;
+	UE_LOG(LogTemp, Warning, TEXT("Enable"));
+	cameraComponent->Activate();
 
-
-		DrawDebugSphere(GetWorld(), settings.Target()->GetActorForwardVector(), 20, 20, FColor::Red, false, -1, 0, 1);
-		DrawDebugSphere(GetWorld(), settings.Target()->GetActorRightVector(), 20, 20, FColor::Magenta, false, -1, 0, 1);
-		DrawDebugSphere(GetWorld(), settings.Target()->GetActorUpVector(), 20, 20, FColor::Orange, false, -1, 0, 1);
-
-
-		DrawDebugLine(GetWorld(), settings.TargetPosition(), settings.target->GetActorForwardVector(), FColor::Red, false, -1, 0, 1);
-		DrawDebugLine(GetWorld(), settings.TargetPosition(), settings.target->GetActorRightVector(), FColor::Magenta, false, -1, 0, 1);
-		DrawDebugLine(GetWorld(), settings.TargetPosition(), settings.target->GetActorUpVector(), FColor::Orange, false, -1, 0, 1);
-	}
+	//Permets de voir à travers la caméra
+	GetWorld()->GetFirstPlayerController()->SetViewTarget(_this);
+	isEnabled = true;
 }
+
+void AUCM_CameraBehaviour::Disable()
+{
+	if (!IsValid())return;
+	cameraComponent->Deactivate();
+	isEnabled = false;
+}
+
+void AUCM_CameraBehaviour::InitHandleItem(AUCM_CameraBehaviour* _this)
+{
+	if (!IsValid())
+	{
+		UE_LOG(LogTemp, Error, TEXT("Need an id"));
+		return;
+	}
+	AUCM_GameMode* _gameMode = Cast<AUCM_GameMode>(GetWorld()->GetAuthGameMode());
+	if (!_gameMode) return;
+
+	_gameMode->GetCameraManager()->Add(_this);
+
+}
+
+void AUCM_CameraBehaviour::RemoveHandleItem(AUCM_CameraBehaviour* _this)
+{
+	AUCM_GameMode* _gameMode = Cast<AUCM_GameMode>(GetWorld()->GetAuthGameMode());
+	if (!_gameMode) return;
+
+	_gameMode->GetCameraManager()->Remove(_this);
+
+}
+
+
+
+
+
 
 
 
