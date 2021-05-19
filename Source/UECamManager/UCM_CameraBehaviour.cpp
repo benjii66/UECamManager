@@ -59,7 +59,6 @@ void AUCM_CameraBehaviour::InitHandleItem(AUCM_CameraBehaviour* _this)
 	if (!_gameMode) return;
 
 	_gameMode->GetCameraManager()->Add(_this);
-
 }
 
 void AUCM_CameraBehaviour::RemoveHandleItem(AUCM_CameraBehaviour* _this)

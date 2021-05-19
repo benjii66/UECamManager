@@ -17,13 +17,15 @@ AUCM_CameraTPS::AUCM_CameraTPS()
 	cameraComponent->SetupAttachment(RootComponent);
 }
 
+
+
 void AUCM_CameraTPS::BeginPlay()
 {
 	Super::BeginPlay();
 	InitCamera();
 
 	//TODO In the Switch component(Future Feature)
-	//Enable(this);
+	EnableTPS();
 }
 
 void AUCM_CameraTPS::Tick(float DeltaTime)
@@ -34,6 +36,16 @@ void AUCM_CameraTPS::Tick(float DeltaTime)
 
 	DrawGizmos();
 
+}
+
+void AUCM_CameraTPS::EnableTPS()
+{
+	Enable(this);
+}
+
+void AUCM_CameraTPS::DisableTPS()
+{
+	Disable();
 }
 
 void AUCM_CameraTPS::SmoothLookAt(float _deltaTime)

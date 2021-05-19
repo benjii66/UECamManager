@@ -17,6 +17,9 @@ class UECAMMANAGER_API AUCM_CameraTPS : public AUCM_CameraBehaviour
 public:
 	AUCM_CameraTPS();
 
+	void EnableTPS();
+	void DisableTPS();
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;

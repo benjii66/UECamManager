@@ -33,14 +33,20 @@ void AUCM_CameraSwitch::SwitchCamera()
 	if (isFPS)
 	{
 		UE_LOG(LogTemp, Error, TEXT("FPS enabled"));
-		//cameraBehaviour
-		//cameraBehaviour->Enabled(cameraFPS);
+		/*AUCM_GameMode* _gameMode = Cast<AUCM_GameMode>(GetWorld()->GetAuthGameMode());
+		if (!_gameMode) return;*/
+
+		/*cameraFPS->EnableFPS();
+		cameraTPS->DisableTPS();*/
+		
+
 		SetFPS(true);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("TPS enabled"));
-
+		//cameraTPS->EnableTPS();
+		//cameraFPS->DisableFPS();
 		SetFPS(false);
 	}
 

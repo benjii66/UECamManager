@@ -9,7 +9,7 @@
 
 #include "UCM_CameraSwitch.generated.h"
 
-class AUCM_CameraBehaviour;
+
 class AUCM_CameraTPS;
 class AUCM_CameraFPS;
 
@@ -18,10 +18,7 @@ class UECAMMANAGER_API AUCM_CameraSwitch : public AActor
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere)
-		AUCM_CameraBehaviour* cameraBehaviour = nullptr;
-
-	UPROPERTY(EditAnywhere)
+		UPROPERTY(EditAnywhere)
 		AUCM_CameraTPS* cameraTPS = nullptr;
 
 	UPROPERTY(EditAnywhere)
@@ -48,5 +45,6 @@ public:
 
 
 	void SwitchCamera();
+
 
 };

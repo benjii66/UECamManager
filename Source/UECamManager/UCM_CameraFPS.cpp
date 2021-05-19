@@ -16,6 +16,8 @@ AUCM_CameraFPS::AUCM_CameraFPS()
 	cameraComponent->SetupAttachment(RootComponent);
 }
 
+
+
 void AUCM_CameraFPS::BeginPlay()
 {
 	Super::BeginPlay();
@@ -32,6 +34,16 @@ void AUCM_CameraFPS::Tick(float DeltaTime)
 	SmoothLookAt(DeltaTime);
 
 	DrawGizmos();
+}
+
+void AUCM_CameraFPS::EnableFPS()
+{
+	Enable(this);
+}
+
+void AUCM_CameraFPS::DisableFPS()
+{
+	Disable();
 }
 
 void AUCM_CameraFPS::SmoothLookAt(float _deltaTime)

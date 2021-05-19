@@ -17,6 +17,9 @@ class UECAMMANAGER_API AUCM_CameraFPS : public AUCM_CameraBehaviour
 public: 
 	AUCM_CameraFPS();
 
+	void EnableFPS();
+	void DisableFPS();
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
