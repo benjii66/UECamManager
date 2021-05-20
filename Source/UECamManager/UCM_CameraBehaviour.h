@@ -121,6 +121,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 		bool isEnabled = true;
 
+	UPROPERTY(VisibleAnywhere)
+		bool isActive = true;
+
 	UPROPERTY(EditAnywhere, Category = "Camera")
 		UCameraComponent* cameraComponent = nullptr;
 
@@ -151,6 +154,7 @@ public:
 	FUpdateCameraEvent& OnUpdateCameraBehaviour() { return OnUpdateCameraEvent; };
  
 	void Enable(AActor* _this);
+	void Disable(AActor* _this);
 	void Disable();
 
 	void InitHandleItem(AUCM_CameraBehaviour* _this);

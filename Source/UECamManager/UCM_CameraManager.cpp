@@ -137,7 +137,7 @@ void AUCM_CameraManager::Enable(AUCM_CameraBehaviour* _cameraToEnable)
 void AUCM_CameraManager::Disable(AUCM_CameraBehaviour* _cameraToDisable)
 {
 	if (!Exist(_cameraToDisable->ID()))return;
-	Get(_cameraToDisable->ID())->Disable();
+	Get(_cameraToDisable->ID())->Disable(_cameraToDisable);
 }
 
 void AUCM_CameraManager::Disable(FString _id)

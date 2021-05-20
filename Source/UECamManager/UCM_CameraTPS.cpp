@@ -25,7 +25,7 @@ void AUCM_CameraTPS::BeginPlay()
 	InitCamera();
 
 	//TODO In the Switch component(Future Feature)
-	EnableTPS();
+	//EnableTPS();
 }
 
 void AUCM_CameraTPS::Tick(float DeltaTime)
@@ -45,7 +45,7 @@ void AUCM_CameraTPS::EnableTPS()
 
 void AUCM_CameraTPS::DisableTPS()
 {
-	Disable();
+	Disable(this);
 }
 
 void AUCM_CameraTPS::SmoothLookAt(float _deltaTime)
@@ -66,7 +66,11 @@ void AUCM_CameraTPS::DrawGizmos()
 {
 	if (settings.IsValidSettings())
 	{
+		if(isActive)
+		DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(), 90, 4, FColor::Green, false, -1, 10);
+		else
 		DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(), 90, 4, FColor::Red, false, -1, 10);
+
 		DrawDebugLine(GetWorld(), GetActorLocation(), settings.TargetPosition(), FColor::Blue, false, -1, 0, 1);
 		DrawDebugSphere(GetWorld(), settings.TargetPosition(), 100, 20, FColor::Emerald, false, -1, 0, 1);
 	}

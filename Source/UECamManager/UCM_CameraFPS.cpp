@@ -24,7 +24,7 @@ void AUCM_CameraFPS::BeginPlay()
 	InitCamera();
 
 	//TODO Switch Component ? 
-	Enable(this);
+	//Enable(this);
 }
 
 void AUCM_CameraFPS::Tick(float DeltaTime)
@@ -43,7 +43,7 @@ void AUCM_CameraFPS::EnableFPS()
 
 void AUCM_CameraFPS::DisableFPS()
 {
-	Disable();
+	Disable(this);
 }
 
 void AUCM_CameraFPS::SmoothLookAt(float _deltaTime)
@@ -63,8 +63,14 @@ void AUCM_CameraFPS::SmoothFollow(float _deltaTime)
 
 void AUCM_CameraFPS::DrawGizmos()
 {
-	DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(), 90, 4, FColor::Red, false, -1, 10);
+	if (isActive)
+		DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(), 90, 4, FColor::Green, false, -1, 10);
+	else
+		DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(), 90, 4, FColor::Red, false, -1, 10);
+
 	DrawDebugLine(GetWorld(), GetActorLocation(), settings.TargetPosition(), FColor::Blue, false, -1, 0, 1);
 	DrawDebugSphere(GetWorld(), settings.TargetPosition(), 100, 20, FColor::Emerald, false, -1, 0, 1);
+
+	
 }
 

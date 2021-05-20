@@ -17,17 +17,13 @@ AUCM_CameraBehaviour::AUCM_CameraBehaviour()
 void AUCM_CameraBehaviour::BeginPlay()
 {
 	Super::BeginPlay();
-	InitCamera();
-
-	//TODO ENABLE IN CAMERA SWITCH WHEN ISSOK
-	/*Enable();*/
+	InitCamera();		
 }
 
 void AUCM_CameraBehaviour::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	//DrawGizmos();
 }
 
 void AUCM_CameraBehaviour::Enable(AActor* _this)
@@ -39,6 +35,17 @@ void AUCM_CameraBehaviour::Enable(AActor* _this)
 	//Permets de voir à travers la caméra
 	GetWorld()->GetFirstPlayerController()->SetViewTarget(_this);
 	isEnabled = true;
+	isActive = true;
+}
+
+void AUCM_CameraBehaviour::Disable(AActor* _this)
+{
+	if (!IsValid())return;
+	cameraComponent->Deactivate();
+	GetWorld()->GetFirstPlayerController()->SetViewTarget(_this);
+	isEnabled = false;
+	isActive = false;
+
 }
 
 void AUCM_CameraBehaviour::Disable()
@@ -46,6 +53,8 @@ void AUCM_CameraBehaviour::Disable()
 	if (!IsValid())return;
 	cameraComponent->Deactivate();
 	isEnabled = false;
+	isActive = false;
+
 }
 
 void AUCM_CameraBehaviour::InitHandleItem(AUCM_CameraBehaviour* _this)
